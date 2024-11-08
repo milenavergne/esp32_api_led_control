@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 LED Control</title>
+</head>
+<body>
+    <h1>ESP32 LED Control</h1>
+    <button onclick="controlLED('on')">Turn LED On</button>
+    <button onclick="controlLED('off')">Turn LED Off</button>
+    <p id="status">Status: </p>
+
+    <script>
+        // IP address of the ESP32 (replace with your ESP32 IP)
+        const ESP32_IP = "http://192.168.1.184";
+
+        function controlLED(action) {
+            fetch(`${ESP32_IP}/${action}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("status").innerText = `Status: ${data}`;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("status").innerText = "Status: Error connecting to ESP32";
+                });
+        }
+    </script>
+</body>
+</html>
