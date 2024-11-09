@@ -1,9 +1,18 @@
-namespace wifi
+#pragma once
+
+#include <Arduino.h>
+#include <WiFi.h>
+
+struct Connection
 {
-    struct configuration
-    {
-    const char id[4] = "OIH";
-    const char password[13] = "0N1DVUa6gDa0";
     bool isConnected = false;
-    };
-}
+    const char* id; 
+    const char* password;
+
+    // Constructor with default values for id and password
+    Connection(const char* name = "ESPTEST", const char* pswrd = "pleasework")
+        : id(name), password(pswrd){}
+
+    void init();
+    void print_mac_addrs();
+};
