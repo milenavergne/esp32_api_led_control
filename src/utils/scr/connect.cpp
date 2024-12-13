@@ -32,7 +32,7 @@ void Connection::init()
     }    
 }
 
-void Connection::print_mac_addrs()
+void Connection::printMacAddrs()
 {
     // Variable to store the MAC address
     uint8_t baseMac[6];

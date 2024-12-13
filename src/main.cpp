@@ -4,11 +4,11 @@
 #include <ESPmDNS.h>
 
 #include <utils/header/connect.h>
-#include <utils/header/mqtt_handler.h>
+#include <utils/header/mqttHandler.h>
 
-Connection connection;
+Connection connection();
 WebServer server(80);
-mosquitto mqtt;
+Mosquitto mqtt;
 
 void setup()
 {
@@ -18,7 +18,7 @@ void setup()
 
   pinMode(LED_BUILTIN, OUTPUT);
 
-  connection.print_mac_addrs();
+  connection.printMacAddrs();
   // Configures static IP address and connectes to wifi
   connection.init();
 

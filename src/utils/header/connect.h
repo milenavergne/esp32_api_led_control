@@ -14,5 +14,5 @@ struct Connection
         : id(name), password(pswrd){}
 
     void init();
-    void print_mac_addrs();
+    void printMacAddrs();
 };

@@ -1,6 +1,6 @@
-#include<utils/header/mqtt_handler.h>
+#include<utils/header/mqttHandler.h>
 
-void mosquitto::callback(char *topic, byte *payload, unsigned int length) {
+void Mosquitto::callback(char *topic, byte *payload, unsigned int length) {
     Serial.print("Message arrived in topic: ");
     Serial.println(topic);
     Serial.print("Message:");
@@ -11,29 +11,29 @@ void mosquitto::callback(char *topic, byte *payload, unsigned int length) {
     Serial.println("-----------------------");
 }
 
-void mosquitto::connect()
+void Mosquitto::connect()
 {
     //connect to MQTT
-    this->mqtt_client.setServer(this->mqtt_broker, this->mqtt_port);
-    this->mqtt_client.setCallback(mosquitto::callback);
+    this->mqttClient.setServer(this->mqttBroker, this->mqttPort);
+    this->mqttClient.setCallback(Mosquitto::callback);
 
-    while (!this->mqtt_client.connected()) {
+    while (!this->mqttClient.connected()) {
         String client_id = "esp32-client-";
         client_id += String(WiFi.macAddress());
         Serial.printf("The client %s connecting to MQTT broker\n", client_id.c_str());
-        if (mqtt_client.connect(client_id.c_str())) {
+        if (mqttClient.connect(client_id.c_str())) {
             Serial.println("Public EMQX MQTT broker connected");
         } else {
             Serial.print("failed with state ");
-            Serial.println(mqtt_client.state());
+            Serial.println(mqttClient.state());
             delay(2000);
         }
     }
     // Publish and subscribe
-    this->mqtt_client.publish(this->topic, "ESP32 is connected");
-    this->mqtt_client.subscribe(this->topic);
+    this->mqttClient.publish(this->topic, "ESP32 is connected");
+    this->mqttClient.subscribe(this->topic);
 }
 
-void mosquitto::loop(){
-    this->mqtt_client.loop();
+void Mosquitto::loop(){
+    this->mqttClient.loop();
 }
