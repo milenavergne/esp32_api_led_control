@@ -4,9 +4,11 @@
 #include <ESPmDNS.h>
 
 #include <utils/header/connect.h>
+#include <utils/header/mqtt_handler.h>
 
 Connection connection;
 WebServer server(80);
+mosquitto mqtt;
 
 void setup()
 {
@@ -19,6 +21,8 @@ void setup()
   connection.print_mac_addrs();
   // Configures static IP address and connectes to wifi
   connection.init();
+
+  mqtt.connect();
 
   // API
   server.on("/on", HTTP_GET, []() { // Turn LED on when /on is requested
@@ -40,13 +44,13 @@ void setup()
 
 void loop()
 {
-  if (WiFi.status() == WL_CONNECTED)
+  if (WiFi.status() == WL_CONNECTED && !connection.isConnected)
   {
     Serial.println("Connected");
     connection.isConnected = true;
     delay(5000);
   }
-  else if (WiFi.status() != WL_CONNECTED)
+  else if (WiFi.status() != WL_CONNECTED && connection.isConnected)
   {
     Serial.println("Not connected to WiFi");
     Serial.print("Local IP: ");
@@ -54,9 +58,12 @@ void loop()
     Serial.print("MAC address: ");
     Serial.println(WiFi.macAddress());
 
-    connection.init();
+    connection.isConnected = false;
 
+    connection.init();
+    
     delay(5000);
   }
   server.handleClient();
+  mqtt.loop();
 }

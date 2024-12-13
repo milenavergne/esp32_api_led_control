@@ -7,6 +7,8 @@ void Connection::init()
     // Connect to wifi
     WiFi.begin(this->id, this->password);
 
+    Serial.printf("WIFI config: user: %s , password: %s \n", this->id, this->password);
+
     while (WiFi.status() != WL_CONNECTED) {
         delay(5000);
         Serial.println("Connecting to WiFi...");
