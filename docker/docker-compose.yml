@@ -2,16 +2,12 @@ services:
   mosquitto:
     image: eclipse-mosquitto:latest
     container_name: mosquitto
+    restart: always
     ports:
-      - "1883:1883"  # MQTT port
+      - "1883:1883/tcp"  # MQTT port
       - "9001:9001"  # WebSocket port (optional)
     volumes:
-      - mosquitto_data:/mosquitto/data
-      - mosquitto_config:/mosquitto/config
-      - mosquitto_log:/mosquitto/log
-    restart: unless-stopped
-
-volumes:
-  mosquitto_data:
-  mosquitto_config:
-  mosquitto_log:
+      - c:/iot_class/mosquitto_data:/mosquitto/data
+      - c:/iot_class/mosquitto_log:/mosquitto/log
+      - ./config/mosquitto:/mosquitto/config
+      - ./config/mosquitto/passwd:/mosquitto/config/passwd
