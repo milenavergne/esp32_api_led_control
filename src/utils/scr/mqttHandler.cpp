@@ -4,11 +4,20 @@ void Mosquitto::callback(char *topic, byte *payload, unsigned int length) {
     Serial.print("Message arrived in topic: ");
     Serial.println(topic);
     Serial.print("Message:");
+    String menssagem="";
     for (int i = 0; i < length; i++) {
-        Serial.print((char) payload[i]);
+        menssagem += ((char) payload[i]);
     }
-    Serial.println();
+    Serial.printf("Mensse from mqtt: %s \n", menssagem);
     Serial.println("-----------------------");
+    if(menssagem=="on")
+    {
+        digitalWrite(LED_BUILTIN, HIGH);
+    }
+    if(menssagem=="off")
+    {
+        digitalWrite(LED_BUILTIN, LOW);
+    }
 }
 
 void Mosquitto::connect()

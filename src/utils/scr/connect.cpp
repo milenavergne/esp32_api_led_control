@@ -7,11 +7,14 @@ void Connection::init()
     // Connect to wifi
     WiFi.begin(this->id, this->password);
 
-    Serial.printf("WIFI config: user: %s , password: %s \n", this->id, this->password);
+    Serial.printf("WIFI config: user: %s, password: %s \n", this->id, this->password);
 
     while (WiFi.status() != WL_CONNECTED) {
-        delay(5000);
         Serial.println("Connecting to WiFi...");
+        WiFi.begin(this->id, this->password);
+        Serial.printf("WIFI config: user: %s, password: %s \n", this->id, this->password);
+
+        delay(5000);
     }
     // Start mDNS service
     if (MDNS.begin("esp32")) {  // "esp32" is the hostname for mDNS
